@@ -1,5 +1,7 @@
 name: network_monitor
-description: "A new Flutter plugin project."
+description: "The Network Monitor plugin provides real-time network insights, including connection type
+  (WiFi, Cellular, Ethernet, etc.), internet availability, real-time network speed in Mbps,
+  and quality assessment of the connected network."
 version: 0.0.1
 homepage:
 

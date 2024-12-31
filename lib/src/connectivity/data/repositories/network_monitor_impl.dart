@@ -33,6 +33,8 @@ class NetworkMonitor implements NetworkMonitorPlugin {
   bool _lastHasInternet = false;
   int _intervalSeconds = 3;
 
+  /// The `monitorNetwork` function updates the network status periodically and listens for connectivity
+  /// changes.
   @override
   void monitorNetwork() {
     _updateNetworkStatus();
@@ -46,6 +48,8 @@ class NetworkMonitor implements NetworkMonitorPlugin {
     });
   }
 
+  /// The `_updateNetworkStatus` function checks for changes in network status and updates the network
+  /// status controller if there are any changes.
   Future<void> _updateNetworkStatus() async {
     final connectionType = await getConnectionType();
     final hasInternet = await hasInternetAccess();
@@ -65,6 +69,24 @@ class NetworkMonitor implements NetworkMonitorPlugin {
     }
   }
 
+  /// Returns the current connection type.
+  ///
+  /// This method uses the [_connectivity] plugin to check the current connectivity status.
+  /// It returns a [Future] that resolves to a [ConnectionType] enum value representing the connection type.
+  /// The possible connection types are:
+  ///   - [ConnectionType.wifi]: Represents a Wi-Fi connection.
+  ///   - [ConnectionType.mobile]: Represents a mobile data connection.
+  ///   - [ConnectionType.ethernet]: Represents an Ethernet connection.
+  ///   - [ConnectionType.bluetooth]: Represents a Bluetooth connection.
+  ///   - [ConnectionType.VPN]: Represents a VPN connection.
+  ///   - [ConnectionType.other]: Represents any other type of connection.
+  ///   - [ConnectionType.none]: Represents no connection.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// final connectionType = await getConnectionType();
+  /// print(connectionType); // ConnectionType.wifi
+  /// ```
   @override
   Future<ConnectionType> getConnectionType() async {
     final result = await _connectivity.checkConnectivity();
@@ -86,7 +108,10 @@ class NetworkMonitor implements NetworkMonitorPlugin {
     }
   }
 
-  @override
+  /// Checks if the device has internet access by making HTTP GET requests to a list of test URLs.
+  /// Returns true if any of the requests receive a successful response (status code 200), otherwise returns false.
+  /// The default test URLs are "https://www.google.com" and "https://www.microsoft.com", but you can provide custom URLs.
+  /// Throws an exception if a request times out after 5 seconds.
   Future<bool> hasInternetAccess({List<String> testUrls = const ["https://www.google.com", "https://www.microsoft.com"]}) async {
     for (String url in testUrls) {
       try {
@@ -101,6 +126,17 @@ class NetworkMonitor implements NetworkMonitorPlugin {
     return false;
   }
 
+  /// Calculates the average network speed by performing HTTP GET requests to a list of test URLs.
+  /// The test URLs are provided as an optional parameter, with a default list of popular websites.
+  /// The function measures the time taken to receive a response from each URL and calculates the speed in Mbps.
+  /// The average speed is then calculated by summing up the speeds of all successful tests and dividing by the number of successful tests.
+  /// If no successful tests are performed, the function returns 0.0.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// double speed = await getNetworkSpeed();
+  /// print('Average network speed: $speed Mbps');
+  /// ```
   @override
   Future<double> getNetworkSpeed(
       {List<String> testUrls = const [
@@ -143,6 +179,13 @@ class NetworkMonitor implements NetworkMonitorPlugin {
     return 0.0;
   }
 
+  /// Determines the network quality based on the provided speed in Mbps.
+  ///
+  /// Returns [NetworkQuality.high] if the speed is greater than 50 Mbps.
+  /// Returns [NetworkQuality.good] if the speed is greater than 20 Mbps.
+  /// Returns [NetworkQuality.average] if the speed is greater than 5 Mbps.
+  /// Returns [NetworkQuality.belowAverage] if the speed is greater than 0 Mbps.
+  /// Returns [NetworkQuality.none] if the speed is 0 Mbps or lower.
   @override
   NetworkQuality getNetworkQuality(double speedMbps) {
     if (speedMbps > 50) {
@@ -172,6 +215,8 @@ class NetworkMonitor implements NetworkMonitorPlugin {
     _networkStatusSubscription = null;
   }
 
+  /// Disposes the network monitor by closing the network status controller,
+  /// canceling the update timer, and stopping the subscription.
   @override
   void dispose() {
     _networkStatusController.close();
