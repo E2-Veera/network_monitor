@@ -93,13 +93,13 @@ class NetworkMonitor implements NetworkMonitorPlugin {
       case ConnectivityResult.wifi:
         return ConnectionType.wifi;
       case ConnectivityResult.mobile:
-        return ConnectionType.nobile;
+        return ConnectionType.mobile;
       case ConnectivityResult.ethernet:
         return ConnectionType.ethernet;
       case ConnectivityResult.bluetooth:
         return ConnectionType.bluetooth;
       case ConnectivityResult.vpn:
-        return ConnectionType.VPN;
+        return ConnectionType.vpn;
       case ConnectivityResult.other:
         return ConnectionType.other;
       default:

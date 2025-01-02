@@ -158,6 +158,6 @@ class NetworkStrengthIcon extends StatelessWidget {
         size: 40,
       );
     }
-    return const Placeholder();
+    return  Container();
   }
 }

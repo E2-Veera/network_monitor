@@ -1,12 +1,12 @@
 /// Represents the type of network connection.
 enum ConnectionType {
   wifi, // Represents a WiFi connection.
-  nobile, // Represents a mobile data connection.
+  mobile, // Represents a mobile data connection.
   ethernet, // Represents an Ethernet connection.
   bluetooth, // Represents a Bluetooth connection.
   vpn, // Represents a VPN connection.
   other, // Represents other types of connections.
-  none, VPN // Represents no connection.
+  none // Represents no connection.
 }
 
 /// Represents the quality of the network connection.
