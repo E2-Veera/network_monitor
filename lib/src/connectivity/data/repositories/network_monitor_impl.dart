@@ -38,7 +38,6 @@ class NetworkMonitor implements NetworkMonitorPlugin {
   @override
   void monitorNetwork() {
     _updateNetworkStatus();
-
     _connectivity.onConnectivityChanged.listen((result) {
       _updateNetworkStatus();
     });
