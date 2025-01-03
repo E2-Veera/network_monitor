@@ -1,5 +1,5 @@
 
-import '../../../../network_monitor.dart';
+import '../../../../network_monitor_package.dart';
 
 /// Represents the status of the network connection.
 ///

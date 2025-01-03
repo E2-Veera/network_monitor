@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:network_monitor_example/connectivity_helper.dart';
+import 'package:network_monitor_example/listen_once.dart';
+import 'package:network_monitor_example/listen_stream.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: false,
       ),
       debugShowCheckedModeBanner: false,
-      home: const NetworkMonitorWidget(),
+      home: const ListenToStream(),
     );
   }
 }
