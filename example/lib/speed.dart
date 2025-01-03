@@ -15,7 +15,7 @@ class CustomURIs extends StatefulWidget {
 }
 
 class _CustomURIsState extends State<CustomURIs> {
-  late StreamSubscription<double> _subscription;
+  late StreamSubscription<SpeedAndQuality> _subscription;
   final NetworkMonitor _networkMonitor = NetworkMonitor.createInstance(
     networkSpeedEnabled: true,
     useDefaultOptions: true,
@@ -25,8 +25,9 @@ class _CustomURIsState extends State<CustomURIs> {
   void initState() {
     super.initState();
     _subscription = _networkMonitor.onChange.listen((status) {
+   
       setState(() {
-        print("Live speed : $status");
+        print("Live speed : ${status.speed}Mbps ==> ${status.quality}");
       });
     });
   }

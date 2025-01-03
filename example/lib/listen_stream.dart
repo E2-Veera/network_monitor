@@ -17,12 +17,13 @@ class ListenToStream extends StatefulWidget {
 class _ListenToStreamState extends State<ListenToStream> {
   ConnectionStatus? _connectionStatus;
   late StreamSubscription<ConnectionStatus> _subscription;
-
+  final NetworkMonitor _networkMonitor = NetworkMonitor.createInstance();
   @override
   void initState() {
     super.initState();
-    _subscription = NetworkMonitor().onStatusChange.listen((status) {
+    _subscription = _networkMonitor.onStatusChange.listen((status) {
       setState(() {
+        print("Live status : $status");
         _connectionStatus = status;
       });
     });
@@ -30,6 +31,7 @@ class _ListenToStreamState extends State<ListenToStream> {
 
   @override
   void dispose() {
+    _networkMonitor.disposeStatus();
     _subscription.cancel();
     super.dispose();
   }
@@ -48,6 +50,10 @@ class _ListenToStreamState extends State<ListenToStream> {
             children: <Widget>[
               ElevatedButton(
                   onPressed: () async {
+                    final data = _networkMonitor.isOnline;
+                    final data2 = _networkMonitor.connectionType;
+               
+                    
                     // final data = await NetworkMonitor().hasInternetAccess;÷
                     // print("this is fucking baashaa... $data");
                   },
