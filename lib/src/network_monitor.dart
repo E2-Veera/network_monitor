@@ -115,6 +115,15 @@ class NetworkMonitor {
     return _networkSpeedController.stream;
   }
 
+  Future<SpeedAndQuality> currentSpeedAndQuality({required Duration interval}) async {
+    SpeedAndQuality currentValue;
+
+    final speed = await _averageSpeedOverInterval(urls: _urls, interval: interval);
+    final quality = _calculateQualityOfInternet(speed);
+    currentValue = SpeedAndQuality(speed: speed, quality: quality);
+    return currentValue;
+  }
+
   Future<double> _networkSpeed({required List<String> urls}) async {
     double totalSpeed = 0.0;
     int successfulTests = 0;
@@ -156,6 +165,31 @@ class NetworkMonitor {
       _networkSpeedController.add(speedAndQualtiy);
     }
   }
+
+
+  Future<double> _averageSpeedOverInterval({
+  required List<String> urls,
+  required Duration interval,
+}) async {
+  final stopwatch = Stopwatch()..start();
+  final List<double> speedMeasurements = [];
+
+  while (stopwatch.elapsed < interval) {
+    final speed = await _networkSpeed(urls: urls);
+    speedMeasurements.add(speed);
+    await Future.delayed(const Duration(seconds: 1)); // Wait 1 second before the next measurement
+  }
+
+  stopwatch.stop();
+
+  if (speedMeasurements.isNotEmpty) {
+    final totalSpeed = speedMeasurements.reduce((a, b) => a + b);
+    final averageSpeed = totalSpeed / speedMeasurements.length;
+    return double.parse(averageSpeed.toStringAsFixed(2)); // Round to 2 decimal places
+  }
+
+  return 0.0; // Return 0 if no speed measurements were collected
+}
 
 InternetQuality _calculateQualityOfInternet(double speed) {
   switch (speed) {

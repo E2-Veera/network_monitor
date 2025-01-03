@@ -52,9 +52,9 @@ class _CustomURIsState extends State<CustomURIs> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
-                  onPressed: () {
-                    //  _networkMonitor.disposeSpeed();
-                    _subscription.cancel();
+                  onPressed: () async {
+                    final data = await _networkMonitor.currentSpeedAndQuality(interval: const Duration(seconds: 5));
+                    print("Speed : ${data.speed}Mbps ==> ${data.quality}");
                   },
                   child: Text("Test")),
               const Text(
