@@ -1,4 +1,4 @@
-part of '../../network_monitor_package.dart';
+part of '../network_monitor_package.dart';
 
 
 /// A Callback Function to decide whether the request succeeded or not.

@@ -1,4 +1,4 @@
-part of '../../network_monitor_package.dart';
+part of '../network_monitor_package.dart';
 
 class NetworkRequestResult {
 
