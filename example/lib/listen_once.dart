@@ -1,7 +1,6 @@
 // Flutter Packages
 import 'package:flutter/material.dart';
-import 'package:network_monitor/network_monitor.dart';
-
+import 'package:network_monitor/network_monitor_package.dart';
 // This Package
 
 class ListenOnce extends StatefulWidget {
@@ -12,16 +11,17 @@ class ListenOnce extends StatefulWidget {
 }
 
 class _ListenOnceState extends State<ListenOnce> {
-  InternetStatus? _connectionStatus;
+  // ConnectionStatus? _connectionStatus;
 
   @override
   void initState() {
     super.initState();
-    InternetConnection().internetStatus.then((status) {
-      setState(() {
-        _connectionStatus = status;
-      });
-    });
+    NetworkMonitor.createInstance(useDefaultOptions: true, enableStrictMode: true);
+    // NetworkMonitor().internetStatus.then((status) {
+    //   setState(() {
+    //     _connectionStatus = status;
+    //   });
+    // });
   }
 
   @override
@@ -36,6 +36,15 @@ class _ListenOnceState extends State<ListenOnce> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              ElevatedButton(
+                  onPressed: () async {
+                    if (await NetworkMonitor().isOnline) {
+                      print("Connected");
+                    } else {
+                      print("no internet");
+                    }
+                  },
+                  child: Text("Test")),
               const Text(
                 'This example shows how to listen for the internet connection '
                 'status once.\n\n'
@@ -49,12 +58,12 @@ class _ListenOnceState extends State<ListenOnce> {
                 thickness: 2.0,
               ),
               const Text('Connection Status:'),
-              _connectionStatus == null
-                  ? const CircularProgressIndicator.adaptive()
-                  : Text(
-                      _connectionStatus.toString(),
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
+              // _connectionStatus == null
+              //     ? const CircularProgressIndicator.adaptive()
+              //     : Text(
+              //         _connectionStatus.toString(),
+              //         style: Theme.of(context).textTheme.headlineSmall,
+              //       ),
             ],
           ),
         ),

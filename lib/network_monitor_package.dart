@@ -18,3 +18,4 @@ part 'src/Internet/request_option.dart';
 part 'src/Internet/request_result.dart';
 part 'src/Internet/network_monitor.dart';
 part 'src/Internet/connection_status.dart';
+part 'src/Internet/connection_type.dart';

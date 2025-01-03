@@ -3,7 +3,7 @@ import 'dart:async';
 
 // Flutter Packages
 import 'package:flutter/material.dart';
-import 'package:network_monitor/network_monitor.dart';
+import 'package:network_monitor/network_monitor_package.dart';
 
 // This Package
 
@@ -15,13 +15,13 @@ class ListenToStream extends StatefulWidget {
 }
 
 class _ListenToStreamState extends State<ListenToStream> {
-  InternetStatus? _connectionStatus;
-  late StreamSubscription<InternetStatus> _subscription;
+  ConnectionStatus? _connectionStatus;
+  late StreamSubscription<ConnectionStatus> _subscription;
 
   @override
   void initState() {
     super.initState();
-    _subscription = InternetConnection().onStatusChange.listen((status) {
+    _subscription = NetworkMonitor().onStatusChange.listen((status) {
       setState(() {
         _connectionStatus = status;
       });
@@ -46,6 +46,12 @@ class _ListenToStreamState extends State<ListenToStream> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              ElevatedButton(
+                  onPressed: () async {
+                    // final data = await NetworkMonitor().hasInternetAccess;÷
+                    // print("this is fucking baashaa... $data");
+                  },
+                  child: Text('Cancel')),
               const Text(
                 'This example shows how to listen for the internet connection '
                 'status using a StreamSubscription.\n\n'
